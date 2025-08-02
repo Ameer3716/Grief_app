@@ -36,6 +36,16 @@ dependencies:
   cupertino_icons: ^1.0.8
   audioplayers: ^5.2.1 # For audio playback
   intl: ^0.18.1        # For date formatting
+  
+  # Firebase dependencies
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  cloud_firestore: ^4.13.6
+  firebase_storage: ^11.6.0
+  cloud_functions: ^4.6.0
+  firebase_messaging: ^14.7.10
+  firebase_analytics: ^10.7.4
+  firebase_crashlytics: ^3.4.9
 dev_dependencies:
   flutter_test:
     sdk: flutter

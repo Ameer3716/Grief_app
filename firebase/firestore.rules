@@ -1,0 +1,152 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isValidUser() {
+      return isAuthenticated() && 
+             request.auth.token.email_verified == true;
+    }
+    
+    // Users collection - users can read/write their own profile
+    match /users/{userId} {
+      allow read, write: if isAuthenticated() && isOwner(userId);
+      
+      // User preferences subcollection
+      match /preferences/{document=**} {
+        allow read, write: if isAuthenticated() && isOwner(userId);
+      }
+      
+      // Private journal entries
+      match /journals/{document=**} {
+        allow read, write: if isAuthenticated() && isOwner(userId);
+      }
+      
+      // Private virtual candles
+      match /virtualCandles/{document=**} {
+        allow read, write: if isAuthenticated() && isOwner(userId);
+      }
+      
+      // Private important dates
+      match /importantDates/{document=**} {
+        allow read, write: if isAuthenticated() && isOwner(userId);
+      }
+    }
+    
+    // Public companion profiles for matching
+    match /companions/{userId} {
+      allow read: if isValidUser();
+      allow write: if isAuthenticated() && isOwner(userId) &&
+                   validateCompanionProfile();
+    }
+    
+    function validateCompanionProfile() {
+      return request.resource.data.keys().hasAll(['name', 'griefStage', 'griefType', 'bio']) &&
+             request.resource.data.griefStage in ['Early Grief', 'Working Through It', 'Acceptance', 'Reconstruction'] &&
+             request.resource.data.griefType in ['Loss of a loved one', 'Health challenge', 'Career setback', 'Other'];
+    }
+    
+    // Prayer requests - public reading, users can create/edit their own
+    match /prayerRequests/{requestId} {
+      allow read: if isValidUser();
+      allow create: if isValidUser() && 
+                    request.resource.data.authorId == request.auth.uid &&
+                    validatePrayerRequest();
+      allow update: if isValidUser() && 
+                    resource.data.authorId == request.auth.uid;
+      allow delete: if isValidUser() && 
+                    resource.data.authorId == request.auth.uid;
+      
+      // Prayer interactions subcollection
+      match /prayers/{userId} {
+        allow read: if isValidUser();
+        allow write: if isAuthenticated() && isOwner(userId);
+      }
+    }
+    
+    function validatePrayerRequest() {
+      return request.resource.data.keys().hasAll(['authorId', 'authorName', 'message', 'createdAt']) &&
+             request.resource.data.message is string &&
+             request.resource.data.message.size() > 0 &&
+             request.resource.data.message.size() <= 500;
+    }
+    
+    // Connection requests between companions
+    match /connectionRequests/{requestId} {
+      allow read: if isValidUser() && 
+                  (resource.data.fromUserId == request.auth.uid || 
+                   resource.data.toUserId == request.auth.uid);
+      allow create: if isValidUser() && 
+                    request.resource.data.fromUserId == request.auth.uid &&
+                    validateConnectionRequest();
+      allow update: if isValidUser() && 
+                    resource.data.toUserId == request.auth.uid &&
+                    request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt']);
+    }
+    
+    function validateConnectionRequest() {
+      return request.resource.data.keys().hasAll(['fromUserId', 'toUserId', 'status', 'createdAt']) &&
+             request.resource.data.status == 'pending' &&
+             request.resource.data.fromUserId != request.resource.data.toUserId;
+    }
+    
+    // Active connections between companions
+    match /connections/{connectionId} {
+      allow read: if isValidUser() && 
+                  (resource.data.user1Id == request.auth.uid || 
+                   resource.data.user2Id == request.auth.uid);
+      allow write: if false; // Only created by Cloud Functions
+    }
+    
+    // Chat messages between connected companions
+    match /chats/{chatId} {
+      allow read, write: if isValidUser() && 
+                         request.auth.uid in resource.data.participants;
+      
+      match /messages/{messageId} {
+        allow read: if isValidUser() && 
+                    request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants;
+        allow create: if isValidUser() && 
+                      request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants &&
+                      request.resource.data.senderId == request.auth.uid &&
+                      validateChatMessage();
+      }
+    }
+    
+    function validateChatMessage() {
+      return request.resource.data.keys().hasAll(['senderId', 'message', 'timestamp']) &&
+             request.resource.data.message is string &&
+             request.resource.data.message.size() > 0 &&
+             request.resource.data.message.size() <= 1000;
+    }
+    
+    // Public content collections (read-only for users)
+    match /dailyDevotions/{devotionId} {
+      allow read: if isValidUser();
+      allow write: if false; // Admin only
+    }
+    
+    match /scriptureContent/{contentId} {
+      allow read: if isValidUser();
+      allow write: if false; // Admin only
+    }
+    
+    match /faithfulComfort/{contentId} {
+      allow read: if isValidUser();
+      allow write: if false; // Admin only
+    }
+    
+    // User activity tracking (for analytics)
+    match /userActivity/{userId} {
+      allow read, write: if isAuthenticated() && isOwner(userId);
+    }
+  }
+}

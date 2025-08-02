@@ -1,0 +1,159 @@
+{
+  "dailyDevotions": [
+    {
+      "id": "devotion_001",
+      "title": "Finding Peace in the Storm",
+      "content": "In times of sorrow, remember that God is your refuge and strength. He is always present, offering comfort and guidance. Trust in His unwavering love, and find peace in His embrace.",
+      "audioUrl": "https://example.com/audio/devotion_001.mp3",
+      "date": "2025-01-15",
+      "affirmations": [
+        "I am held in God's loving embrace.",
+        "My faith is my strength.",
+        "I am not alone in my grief."
+      ]
+    },
+    {
+      "id": "devotion_002",
+      "title": "Walking Through the Valley",
+      "content": "Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me; your rod and your staff, they comfort me. - Psalm 23:4",
+      "audioUrl": "https://example.com/audio/devotion_002.mp3",
+      "date": "2025-01-16",
+      "affirmations": [
+        "God walks with me through every valley.",
+        "I find comfort in His presence.",
+        "His love casts out all fear."
+      ]
+    }
+  ],
+  "scriptureContent": [
+    {
+      "id": "comfort_001",
+      "category": "Comfort",
+      "title": "Psalm 34:18",
+      "verses": [
+        "The Lord is close to the brokenhearted and saves those who are crushed in spirit."
+      ]
+    },
+    {
+      "id": "comfort_002",
+      "category": "Comfort",
+      "title": "Matthew 5:4",
+      "verses": [
+        "Blessed are those who mourn, for they will be comforted."
+      ]
+    },
+    {
+      "id": "strength_001",
+      "category": "Strength",
+      "title": "Isaiah 41:10",
+      "verses": [
+        "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand."
+      ]
+    },
+    {
+      "id": "hope_001",
+      "category": "Hope",
+      "title": "Romans 15:13",
+      "verses": [
+        "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit."
+      ]
+    }
+  ],
+  "faithfulComfort": [
+    {
+      "id": "meditation_001",
+      "type": "meditations",
+      "title": "Meditation for Peace",
+      "subtitle": "10 min",
+      "audioUrl": "https://example.com/audio/meditation_peace.mp3",
+      "duration": 600
+    },
+    {
+      "id": "playlist_001",
+      "type": "playlists",
+      "title": "Hymns of Hope",
+      "subtitle": "45 min",
+      "audioUrl": "https://example.com/audio/hymns_hope.mp3",
+      "duration": 2700
+    },
+    {
+      "id": "blessing_001",
+      "type": "blessings",
+      "title": "Evening Prayer for Rest",
+      "subtitle": "5 min",
+      "audioUrl": "https://example.com/audio/evening_prayer.mp3",
+      "duration": 300
+    }
+  ],
+  "sampleUsers": [
+    {
+      "id": "user_001",
+      "name": "Sarah Johnson",
+      "email": "sarah@example.com",
+      "griefStage": "Early Grief",
+      "griefType": "Loss of a loved one",
+      "bio": "Recently lost my mother and looking for support from others who understand this journey.",
+      "joinDate": "2025-01-10T10:00:00Z",
+      "lastActive": "2025-01-15T14:30:00Z",
+      "profileVisible": true,
+      "shareStory": true,
+      "allowMatching": true
+    },
+    {
+      "id": "user_002",
+      "name": "Michael Chen",
+      "email": "michael@example.com",
+      "griefStage": "Acceptance",
+      "griefType": "Health challenge",
+      "bio": "Dealing with a chronic illness diagnosis. Finding strength through faith and community.",
+      "joinDate": "2025-01-05T09:15:00Z",
+      "lastActive": "2025-01-15T16:45:00Z",
+      "profileVisible": true,
+      "shareStory": false,
+      "allowMatching": true
+    }
+  ],
+  "samplePrayerRequests": [
+    {
+      "id": "prayer_001",
+      "authorId": "user_001",
+      "authorName": "Sarah J.",
+      "message": "Please pray for my family as we navigate this difficult time of loss. We need strength and guidance.",
+      "isAnonymous": false,
+      "prayCount": 12,
+      "createdAt": "2025-01-14T08:00:00Z"
+    },
+    {
+      "id": "prayer_002",
+      "authorId": "user_002",
+      "authorName": "Anonymous",
+      "message": "Pray for healing and peace during my treatment journey. Thank you for your support.",
+      "isAnonymous": true,
+      "prayCount": 8,
+      "createdAt": "2025-01-13T19:30:00Z"
+    }
+  ],
+  "sampleJournalEntries": [
+    {
+      "userId": "user_001",
+      "entries": [
+        {
+          "id": "journal_001",
+          "title": "A Prayer for Strength",
+          "content": "Dear Lord, grant me the strength to face each day without her. Help me find peace in knowing she is with you now.",
+          "type": "Prayers",
+          "createdAt": "2025-01-14T20:00:00Z",
+          "updatedAt": "2025-01-14T20:00:00Z"
+        },
+        {
+          "id": "journal_002",
+          "title": "Letter to Mom",
+          "content": "Dear Mom, I miss you so much. I saw a cardinal today and thought of you. I hope you're at peace.",
+          "type": "Letters to Heaven",
+          "createdAt": "2025-01-13T15:30:00Z",
+          "updatedAt": "2025-01-13T15:30:00Z"
+        }
+      ]
+    }
+  ]
+}
